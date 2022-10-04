@@ -11,22 +11,22 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if ($title){
         foreach ($copy as $v){
            if($title== $v['title']){
-               $error['title'] = "<small style='color: red'>Филь с таким именем уже существует</small>";
+               $error['title'] = "<small style='color: red'>A file with the same name already exists</small>";
            }
         }
     }
     if(!$title){
-        $error['title'] = "<small style='color: red'>Обязательное поле для ввода</small>";
+        $error['title'] = "<small style='color: red'>Required input field</small>";
     }
 
     if($release_year < 1850 ){
-        $error['release_year'] = "<small style='color: red'>Введите дату создания от 1850 года до 2022</small>";
+        $error['release_year'] = "<small style='color: red'>Enter a creation date between 1850 and 2022</small>";
     }
     if($release_year > 2023 ){
-        $error['release_year'] = "<small style='color: red'>Введите дату создания от 1850 года до 2022</small>";
+        $error['release_year'] = "<small style='color: red'>Enter a creation date between 1850 and 2022</small>";
     }
     if(!$stars){
-        $error['stars'] = "<small style='color: red'>Обязательное поле для ввода</small>";
+        $error['stars'] = "<small style='color: red'>Required input field</small>";
     }
     if(empty($error)){
         $ar = [strip_tags($_POST['title']), $_POST['release_year'],$_POST['select'],strip_tags($_POST['stars'])];
@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $item->format =$ar[2];
         $item->stars = $ar[3];
         R::store($item) ;
-        echo "<span style='color: green'>Записть $ar[0] была успешно  добавлена</span>";
+        echo "<span style='color: green'>Recording $ar[0] was successfully added</span>";
     }
 }
 

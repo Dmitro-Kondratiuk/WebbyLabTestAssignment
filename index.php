@@ -45,20 +45,20 @@ require 'vendor/read.php';
             <td><?= $item->format ?></td>
             <td><?= $item->stars ?></td>
             <td><a href="view/update.php?id=<?= $item['id'] ?>"><span> &#x270E; </span></a></td>
-            <td> <button class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">&#128465;</button>
+            <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">&#128465;</button>
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Форма для удаления файла</h5>
-                                <button class="btn-close" data-dismiss="modal" aria-label="close">X</button>
+                                <button class="btn-close" data-dismiss="modal" aria-label="close"></button>
                             </div>
                             <div class="modal-body">
                                 Ви точно уверены что хотите удалить эту запись?
                             </div>
-                            <div class="modal-footer">
-                                <button><a href="vendor/delete.php?id=<?= $item['id'] ?>">Delete></a></button
-                                <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="vendor/delete.php?id=<?= $item['id'] ?>"  class="btn btn-primary" >Delete</a>
                             </div>
                         </div>
                     </div>
@@ -72,12 +72,6 @@ require 'vendor/read.php';
     <h2 style="text-align: center;color: red" >No records found in the database<h2>
             <?php endif; ?>
 <?php endif; ?>
-
-
 <script src='bundle.js'></script>
-            <script src="node_modules/bootstrap/dist/js/bootstrap.esm.js"></script>
-            <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </body>
 </html>
-<!--<td><a href="vendor/delete.php?id=--><?//= $item['id'] ?><!--"><p id='delete' onclick="confirm('Вы уверены что хоите удалить эту запись?')"  style="color: red" > &#128465;</p></a></td>-->

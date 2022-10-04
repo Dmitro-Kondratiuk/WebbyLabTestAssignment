@@ -1,39 +1,28 @@
 <?php
-require_once "../config/connect.php";
+require "../config/connect.php";
+$text = trim(strip_tags(stripcslashes(htmlspecialchars($_POST['search']))));
 
-if(isset($_POST['button'])) {
-    $search = explode(" ", $_POST['search']);
-    $count = count($search);
-    $array = [];
-    $i = 0;
-    foreach ($search as $key) {
-        $i++;
-        if ($i < $count) $array[] = "CONCAT (`title`, `stars`) LIKE '%" . $key . "%' OR "; else$array[] = "CONCAT (`title`,`stars`) LIKE '%" . $key . "%'";
-    }
-        $sql = "SELECT * FROM `info` WHERE " . implode("", $array);
-        $query = mysqli_query($connect, $sql);
-        $new_array = mysqli_fetch_all($query);
+$sql = "SELECT * FROM info WHERE title LIKE '%$text%' OR stars LIKE '%$text%'";
+$query =$pdo->prepare($sql);
+$query->execute();
+$array =$query->fetchAll();
 
-}
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Search</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
 <h1 style="text-align: center">Here is what I was able to find</h1>
-<?php  if(empty($new_array)):?>
+<?php  if(empty($array)):?>
 <h2 style="text-align: center; color: red">Sorry no matches found</h2>
 <button><a href="/">Home</a></button>
 <?php else: ?>
 <div>
-    <table border="2">
+    <table border="2" id="table-id" class="table-active">
         <thead>
         <tr style="background: blue; color: antiquewhite">
             <td>Title</td>
@@ -44,14 +33,31 @@ if(isset($_POST['button'])) {
             <td>Delete</td>
         </tr>
         </thead>
-        <?php foreach ($new_array as $item): ?>
+        <?php foreach ($array as $item): ?>
         <tr>
             <td><?= $item[1] ?></td>
             <td><?= $item[2] ?></td>
             <td><?= $item[3] ?></td>
             <td><?= $item[4] ?></td>
             <td><a href="update.php?id=<?= $item[0] ?>"><p> &#x270E; </p></a></td>
-            <td><a href="vendor/delete.php?id=<?= $item[0] ?>"><p style="color: red"> &#128465; </p></a></td>
+            <td> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">&#128465;</button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Форма для удаления файла</h5>
+                            <button class="btn-close" data-dismiss="modal" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            Ви точно уверены что хотите удалить эту запись?
+                        </div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="vendor/delete.php?id=<?= $item[0] ?>"  class="btn btn-primary" >Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tr>
         <?php endforeach; ?>
     </table>
@@ -59,5 +65,6 @@ if(isset($_POST['button'])) {
 </div>
     <button><a href="/">Home</a></button>
 <?php endif; ?>
+<script src='/bundle.js'></script>
 </body>
 </html>
