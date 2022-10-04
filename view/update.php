@@ -2,6 +2,7 @@
 require_once "../config/connect.php";
 $item_id = $_GET['id'];
 $item = R::load('info',$item_id);
+$dropdown = ['DVD','VHS','Blu-Ray'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,8 +20,17 @@ $item = R::load('info',$item_id);
     <textarea name="title" id="stars"   rows="4" cols="28" ><?=$item['title']?></textarea><br>
     <label>Release Yea</label><br>
     <input type="number" id="release_yea" name="release_year" value="<?=$item['release_year']?>"><br>
-    <label>Format</label><br>
-    <input type="text" id="format" name="format" value="<?=$item['format']?>"><br>
+    <label>Format</label>
+    <select name="format">
+        <?php foreach ($dropdown as $value): ?>
+            <?php if($value == $item['format']): ?>
+            <option value="<?=$value?>" selected><?=$value?></option>
+            <?php  else:?>
+            <option value="<?=$value?>"><?=$value?></option>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </select>
+    <br>
     <label>Stars</label><br>
     <textarea name="stars" id="stars"   rows="4" cols="28" ><?=$item['stars']?></textarea><br>
     <button type="submit">Update</button>

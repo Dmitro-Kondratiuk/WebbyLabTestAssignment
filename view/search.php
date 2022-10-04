@@ -36,9 +36,8 @@ if(isset($_POST['button'])) {
     <table border="2">
         <thead>
         <tr style="background: blue; color: antiquewhite">
-            <td>Id</td>
             <td>Title</td>
-            <td>Release Yea</td>
+            <td>Release Year</td>
             <td>Format</td>
             <td>Stars</td>
             <td>Update</td>
@@ -47,7 +46,6 @@ if(isset($_POST['button'])) {
         </thead>
         <?php foreach ($new_array as $item): ?>
         <tr>
-            <td><?=$item[0]?></td>
             <td><?= $item[1] ?></td>
             <td><?= $item[2] ?></td>
             <td><?= $item[3] ?></td>

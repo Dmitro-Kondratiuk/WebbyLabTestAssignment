@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "bootstrap": "^5.2.2",
+    "jquery": "^3.6.1",
     "tablesort": "^5.3.0"
   },
   "name": "test",
@@ -9,7 +11,7 @@
     "browserify": "^17.0.0"
   },
   "scripts": {
-    "build": "browserify web/js/index.js -o bundle.js "
+    "build": "browserify web/_js/index.js -o bundle.js "
   },
   "author": "",
   "license": "ISC",

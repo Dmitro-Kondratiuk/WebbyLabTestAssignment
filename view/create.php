@@ -1,18 +1,76 @@
+<?php
+require_once "../config/connect.php";
+$copy = R::findAll('info');
+$title =$_POST['title'];
+$stars = $_POST['stars'];
+$release_year = $_POST['release_year'];
+$error =[];
+$flag = 0;
+$dropdown = ['DVD','VHS','Blu-Ray'];
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    if ($title){
+        foreach ($copy as $v){
+           if($title== $v['title']){
+               $error['title'] = "<small style='color: red'>Филь с таким именем уже существует</small>";
+           }
+        }
+    }
+    if(!$title){
+        $error['title'] = "<small style='color: red'>Обязательное поле для ввода</small>";
+    }
+
+    if($release_year < 1850 ){
+        $error['release_year'] = "<small style='color: red'>Введите дату создания от 1850 года до 2022</small>";
+    }
+    if($release_year > 2023 ){
+        $error['release_year'] = "<small style='color: red'>Введите дату создания от 1850 года до 2022</small>";
+    }
+    if(!$stars){
+        $error['stars'] = "<small style='color: red'>Обязательное поле для ввода</small>";
+    }
+    if(empty($error)){
+        $ar = [strip_tags($_POST['title']), $_POST['release_year'],$_POST['select'],strip_tags($_POST['stars'])];
+        $item = R::dispense('info');
+        $item->title = $ar[0];
+        $item->release_year = $ar[01];
+        $item->format =$ar[2];
+        $item->stars = $ar[3];
+        R::store($item) ;
+        echo "<span style='color: green'>Записть $ar[0] была успешно  добавлена</span>";
+    }
+}
+
+
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
     <title>Create</title>
 </head>
 <body>
-<form action="../vendor/create.php" method="post">
+<form action="create.php" method="post">
     <label>Title</label><br>
-    <textarea name="title" id="title" rows="4" cols="28"></textarea><br>
-    <label>Release Yea</label><br>
-    <input type="number" id="release_yea" name="release_yea"><br>
+    <textarea name="title" id="title" rows="4" cols="28"><?= $_POST['title']?></textarea>
+    <br>
+    <?= $error['title']?>
+    <br>
+    <label>Release Year</label><br>
+    <input type="number" id="release_year" name="release_year" value="<?= $_POST['release_year']?>"><br>
+    <?= $error['release_year']?>
+    <br>
     <label>Format</label><br>
-    <input type="text" id="format" name="format"><br>
+    <select name="format">
+        <?php foreach ($dropdown as $item): ?>
+        <option value="<?=$item?>"><?=$item?></option>
+        <?php endforeach; ?>
+    </select>
+    <br>
     <label>Stars</label><br>
-    <textarea name="stars" id="stars" rows="4" cols="28"></textarea><br>
+    <textarea name="stars" id="stars" rows="4" cols="28"><?=$_POST['stars']?></textarea><br>
+    <?= $error['stars']?>
+    <br>
     <button type="submit">Create</button>
 </form>
 <br>

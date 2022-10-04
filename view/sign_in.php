@@ -8,9 +8,7 @@ if(isset($data['to_login'])){
     if($user){
         if(password_verify($data['password'],$user['password'])){
             $_SESSION['user']=$user;
-            echo $str = '<p style="color: green">You have been successfully authenticated</br>
-You can go to the <a href="/">main</a> page
-</p><hr>';
+            header( 'Location:/');
         }else{
             $errors[]='Password entered incorrectly';
         }
