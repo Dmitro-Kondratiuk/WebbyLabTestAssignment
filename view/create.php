@@ -1,3 +1,4 @@
+
 <?php
 require_once "../config/connect.php";
 $copy = R::findAll('info');
@@ -10,9 +11,9 @@ $dropdown = ['DVD','VHS','Blu-Ray'];
 if($_SERVER['REQUEST_METHOD']=='POST'){
     if ($title){
         foreach ($copy as $v){
-           if($title== $v['title']){
-               $error['title'] = "<small style='color: red'>A file with the same name already exists</small>";
-           }
+            if($title== $v['title']){
+                $error['title'] = "<small style='color: red'>A file with the same name already exists</small>";
+            }
         }
     }
     if(!$title){
@@ -29,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $error['stars'] = "<small style='color: red'>Required input field</small>";
     }
     if(empty($error)){
-        $ar = [strip_tags($_POST['title']), $_POST['release_year'],$_POST['select'],strip_tags($_POST['stars'])];
+        $ar = [htmlspecialchars($_POST['title']), $_POST['release_year'],$_POST['format'],strip_tags($_POST['stars'])];
         $item = R::dispense('info');
         $item->title = $ar[0];
         $item->release_year = $ar[01];
@@ -63,7 +64,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     <label>Format</label><br>
     <select name="format">
         <?php foreach ($dropdown as $item): ?>
-        <option value="<?=$item?>"><?=$item?></option>
+            <option value="<?=$item?>"><?=$item?></option>
         <?php endforeach; ?>
     </select>
     <br>
