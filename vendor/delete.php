@@ -6,4 +6,4 @@ R::trash($item);
 echo "<div style='text-align: center'>
 <p style='color: red;font-size: 20px'>The item you selected has been removed</p>
 </div>";
-header('Refresh: 2; /');
+header("Location : /");

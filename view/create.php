@@ -19,6 +19,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if(!$title){
         $error['title'] = "<small style='color: red'>Required input field</small>";
     }
+    if(!trim($title)){
+        $error['title'] = "<small style='color: red'>It is not possible for a line to consist of spaces</small>";
+    }
 
     if($release_year < 1850 ){
         $error['release_year'] = "<small style='color: red'>Enter a creation date between 1850 and 2022</small>";
@@ -29,8 +32,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if(!$stars){
         $error['stars'] = "<small style='color: red'>Required input field</small>";
     }
+    if(!trim($stars)){
+        $error['stars'] = "<small style='color: red'>It is not possible for a line to consist of spaces</small>";
+    }
+
     if(empty($error)){
-        $ar = [htmlspecialchars($_POST['title']), $_POST['release_year'],$_POST['format'],strip_tags($_POST['stars'])];
+        $ar = [(htmlspecialchars($_POST['title'])), $_POST['release_year'],$_POST['format'],(strip_tags($_POST['stars']))];
         $item = R::dispense('info');
         $item->title = $ar[0];
         $item->release_year = $ar[01];
